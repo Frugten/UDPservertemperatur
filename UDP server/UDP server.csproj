@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>UDP_server</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="UdpTemperatur">
+      <HintPath>..\..\UDPData\UdpTemperatur\UdpTemperatur\bin\Debug\net5.0\UdpTemperatur.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -26,7 +26,7 @@ namespace UDP_server
             using (HttpClient client = new HttpClient())
             {
                 JsonContent serialzedSensor = JsonContent.Create(sensor);
-                HttpResponseMessage response = await client.PostAsync("https://sensordatarest.azurewebsites.net/api/Sensor", serialzedSensor);
+                HttpResponseMessage response = await client.PostAsync("https://restsensordb.azurewebsites.net/Sensor", serialzedSensor);
                 return await response.Content.ReadFromJsonAsync<SensorTemperature>();
             }
         }

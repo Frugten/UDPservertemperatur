@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using UdpTemperatur;
+using UdpTemperature;
 
 namespace UDP_server
 {
@@ -24,15 +24,16 @@ namespace UDP_server
                 while (true)
                 {
                     SensorWork myworker = new SensorWork();
-                    IEnumerable<SensorTemperatur> items = myworker.GetAllItmesTask().Result;
+                    IEnumerable<SensorTemperature> items = myworker.GetAllItmesTask().Result;
 
                     IPEndPoint clientEndpoint = null;
                     byte[] received = socket.Receive(ref clientEndpoint);
                     Console.WriteLine("Client connected: " + clientEndpoint.Address);
-                    Console.WriteLine("Temperatur: " + Encoding.UTF8.GetString(received));
+                    Console.WriteLine("PI TEAMCOOL DATA: " + Encoding.UTF8.GetString(received));
 
-                    SensorTemperatur newItem = new SensorTemperatur(Encoding.UTF8.GetString(received), DateTime.Now);
-                    SensorTemperatur resultItem = myworker.PostItem(newItem).Result;
+
+                    SensorTemperature newItem = new SensorTemperature(Encoding.UTF8.GetString(received),Encoding.UTF8.GetString(received), Encoding.UTF8.GetString(received), Encoding.UTF8.GetString(received));
+                    SensorTemperature resultItem = myworker.PostItem(newItem).Result;
                     Console.WriteLine();
                 }
             }

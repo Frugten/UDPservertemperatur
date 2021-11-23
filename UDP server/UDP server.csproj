@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SensorTemperature\UdpTemperature.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="UdpTemperatur">
       <HintPath>..\..\UDPData\UdpTemperatur\UdpTemperatur\bin\Debug\net5.0\UdpTemperatur.dll</HintPath>
     </Reference>

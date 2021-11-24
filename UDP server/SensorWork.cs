@@ -21,13 +21,13 @@ namespace UDP_server
             }
         }
 
-        public async Task<SensorTemperature> PostItem(SensorTemperature sensor)
+        public async Task<StringContent> PostItem(string sensor)
         {
             using (HttpClient client = new HttpClient())
             {
-                JsonContent serialzedSensor = JsonContent.Create(sensor);
-                HttpResponseMessage response = await client.PostAsync("https://restsensordb.azurewebsites.net/Sensor", serialzedSensor);
-                return await response.Content.ReadFromJsonAsync<SensorTemperature>();
+                StringContent serialzedSensor = new StringContent(sensor, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsJsonAsync("https://restsensordb.azurewebsites.net/Sensor", serialzedSensor);
+                return await response.Content.ReadFromJsonAsync<StringContent>();
             }
         }
     }

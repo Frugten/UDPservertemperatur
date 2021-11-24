@@ -7,34 +7,39 @@ using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using UdpTemperature;
+using Newtonsoft.Json;
 
 namespace UDP_server
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Console.WriteLine("UDP server!");
 
             using (UdpClient socket = new UdpClient())
             {
-                socket.Client.Bind(new IPEndPoint(IPAddress.Any, 7010));
+                socket.Client.Bind(new IPEndPoint(IPAddress.Any, 1313));
 
                 while (true)
                 {
-                    SensorWork myworker = new SensorWork();
-                    IEnumerable<SensorTemperature> items = myworker.GetAllItmesTask().Result;
-
                     IPEndPoint clientEndpoint = null;
                     byte[] received = socket.Receive(ref clientEndpoint);
                     Console.WriteLine("Client connected: " + clientEndpoint.Address);
-                    Console.WriteLine("PI TEAMCOOL DATA: " + Encoding.UTF8.GetString(received));
+                    string Jsonstring = Encoding.UTF8.GetString(received);
+                    Console.WriteLine("PI TEAMCOOL DATA: " + Jsonstring);
 
+                    var data = new StringContent(Jsonstring, Encoding.UTF8, "application/json");
 
-                    SensorTemperature newItem = new SensorTemperature(Encoding.UTF8.GetString(received),Encoding.UTF8.GetString(received), Encoding.UTF8.GetString(received), Encoding.UTF8.GetString(received));
-                    SensorTemperature resultItem = myworker.PostItem(newItem).Result;
-                    Console.WriteLine();
+                    var url = "https://restsensordb.azurewebsites.net/Sensor";
+                    using var client = new HttpClient();
+
+                    var response = await client.PostAsync(url, data);
+
+                    string result = response.Content.ReadAsStringAsync().Result;
+                    Console.WriteLine(result);
                 }
             }
         }
